@@ -1,4 +1,4 @@
-﻿namespace RequestProcessingPipeline
+﻿namespace RequestProcessingPipeline.Middlewares
 {
     public class From1To9Middleware
     {
@@ -6,7 +6,7 @@
 
         public From1To9Middleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
@@ -23,7 +23,7 @@
                 context.Session.Clear();
                 context.Session.SetString("number", Ones[units - 1]);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // Выдаем окончательный ответ клиенту
                 await context.Response.WriteAsync("Incorrect parameter");

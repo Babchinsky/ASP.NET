@@ -1,12 +1,12 @@
-﻿namespace RequestProcessingPipeline
+﻿namespace RequestProcessingPipeline.Middlewares
 {
-    public class From20To99Middleware
+    public class From100To999Middleware
     {
         private readonly RequestDelegate _next;
 
-        public From20To99Middleware(RequestDelegate next)
+        public From100To999Middleware(RequestDelegate next)
         {
-            this._next = next;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
@@ -14,41 +14,43 @@
             string? token = context.Request.Query["number"]; // Получим число из контекста запроса
             try
             {
-                string[] Tens = { "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+                string[] Hundreds = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
                 int number = Convert.ToInt32(token);
                 number = Math.Abs(number);
-                
 
-                int last2Digits = number % 100;
-                int tensInLast2Digits = last2Digits / 10;
+                //int hundreds = number / 100 % 10;
+                int last3Digits = number % 1000;
+                int hundredsInLast3Digits = last3Digits / 100;
 
                 string? result = string.Empty;
 
-                if (last2Digits <= 19) // если число меньше 20, то получаем от элементов результат. Либо с 1-9, либо с 10-19
+                if (last3Digits < 100)
                 {
                     await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                     result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
-
-                    context.Session.SetString("number", result);
+                    await context.Response.WriteAsync("Your number is " + result);
                 }
                 else
                 {
-                    if (last2Digits % 10 == 0)
+                    if (last3Digits % 100 == 0)
                     {
-                        //await context.Response.WriteAsync("Your number is " + Tens[tensInLast2Digits - 2]);
-                        context.Session.SetString("number", Tens[tensInLast2Digits - 2]);
+                        await context.Response.WriteAsync("Your number is " + Hundreds[hundredsInLast3Digits - 1] + " hundred");
                     }
                     else
                     {
                         await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                         result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
-                        //await context.Response.WriteAsync("Your number is " + Tens[tensInLast2Digits - 2] + " " + result);
-                        context.Session.SetString("number", Tens[tensInLast2Digits - 2] + " " + result);
+
+
+                        await context.Response.WriteAsync("Your number is " + Hundreds[hundredsInLast3Digits - 1] + " hundred " + result);
+
                     }
-                    
+
                 }
 
-                  
+
+
+
             }
             catch (Exception)
             {

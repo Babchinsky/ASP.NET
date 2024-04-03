@@ -1,4 +1,4 @@
-﻿using RequestProcessingPipeline;
+﻿using RequestProcessingPipeline.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
