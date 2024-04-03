@@ -15,7 +15,7 @@
 
             try
             {
-                string[] TensThousands = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+                string[] TeensThousands = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
                 int number = Convert.ToInt32(token);
                 number = Math.Abs(number);
 
@@ -32,7 +32,8 @@
                 {
                     await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                     result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
-                    await context.Response.WriteAsync("Your number is " + result);
+                    //await context.Response.WriteAsync("Your number is " + result);
+                    context.Session.SetString("number", result);
                 }
 
                 else
@@ -42,7 +43,8 @@
                     {
                         if (last5Digits % 1000 == 0)
                         {
-                            await context.Response.WriteAsync("Your number is " + TensThousands[teensThousandsInLast5Digits - 10] + " thousand");
+                            //await context.Response.WriteAsync("Your number is " + TeensThousands[teensThousandsInLast5Digits - 10] + " thousand");
+                            context.Session.SetString("number", TeensThousands[teensThousandsInLast5Digits - 10] + " thousand");
                         }
                         else
                         {
@@ -50,7 +52,8 @@
                             result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
 
 
-                            await context.Response.WriteAsync("Your number is " + TensThousands[teensThousandsInLast5Digits - 10] + " thousand " + result);
+                            //await context.Response.WriteAsync("Your number is " + TeensThousands[teensThousandsInLast5Digits - 10] + " thousand " + result);
+                            context.Session.SetString("number", TeensThousands[teensThousandsInLast5Digits - 10] + " thousand " + result);
                         }
                     }
 
