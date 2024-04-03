@@ -56,6 +56,10 @@
                             context.Session.SetString("number", TeensThousands[teensThousandsInLast5Digits - 10] + " thousand " + result);
                         }
                     }
+                    else
+                    {
+                        await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
+                    }
 
 
                 }

@@ -24,29 +24,36 @@
 
                 string? result = string.Empty;
 
-                if (last5Digits < 20000)
+                if (number < 20000)
                 {
                     await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                     result = context.Session.GetString("number"); // получим число от компонента From10000To19999
                     await context.Response.WriteAsync("Your number is " + result);
                 }
-                //else if (number == 10000){
-                //    await context.Response.WriteAsync("Your number is one hundred thousand");
-                //}
-                //else if (number > 100000)
-                //{
-                //    await context.Response.WriteAsync("Your number is greater than one hundred thousand");
-                //}
-                //else
-                //{
-                //    await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
-                //    result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
+                else if (number == 100000)
+                {
+                    await context.Response.WriteAsync("Your number is one hundred thousand");
+                }
+                else if (number > 100000)
+                {
+                    await context.Response.WriteAsync("Your number greather than one hundred thousand");
+                }
+                else
+                {
+                    if (number % 10000 == 0)
+                    {
+                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 2] + " thousand");
+                    }
+                    // 20к - 99.999 не кратные
+                    else
+                    {
+                        await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
+                        result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
 
+                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 2] + " thousand " + result);
+                    }
 
-                //    //context.Session.SetString("number", TensThousands[tensThousandsInLast5Digits - 1] + " hundred " + result);
-                //    await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 1] + " hundred " + result);
-                //}
-
+                }
             }
             catch (Exception)
             {
