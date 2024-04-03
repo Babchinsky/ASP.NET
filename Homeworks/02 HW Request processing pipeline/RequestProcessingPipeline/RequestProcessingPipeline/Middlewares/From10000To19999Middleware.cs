@@ -35,7 +35,7 @@
                     //await context.Response.WriteAsync("Your number is " + result);
                     context.Session.SetString("number", result);
                 }
-
+                 
                 else
                 {
 
