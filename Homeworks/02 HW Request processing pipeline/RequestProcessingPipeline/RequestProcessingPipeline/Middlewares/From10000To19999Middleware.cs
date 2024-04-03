@@ -1,41 +1,42 @@
 ﻿namespace RequestProcessingPipeline.Middlewares
 {
-    public class From1000To9999Middleware
+    public class From10000To19999Middleware
     {
         private readonly RequestDelegate _next;
 
-        public From1000To9999Middleware(RequestDelegate next)
+        public From10000To19999Middleware(RequestDelegate next)
         {
             _next = next;
         }
+
         public async Task Invoke(HttpContext context)
         {
             string? token = context.Request.Query["number"]; // Получим число из контекста запроса
 
             try
             {
-                string[] Thousands = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+                string[] TensThousands = { "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
                 int number = Convert.ToInt32(token);
                 number = Math.Abs(number);
 
-                int last4Digits = number % 10000;
-                int thousandsInLast4Digits = last4Digits / 1000;
+                int last5Digits = number % 100000;
+                int tensThousandsInLast5Digits = last5Digits / 10000;
 
                 string? result = string.Empty;
 
-                if (last4Digits < 1000)
+                if (last5Digits < 10000)
                 {
                     await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                     result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
-                    //await context.Response.WriteAsync("Your number is " + result);
-                    context.Session.SetString("number", result);
+                    await context.Response.WriteAsync("Your number is " + result);
                 }
+
                 else
                 {
-                    if (last4Digits % 100 == 0)
+                    if (last5Digits % 1000 == 0)
                     {
-                        //await context.Response.WriteAsync("Your number is " + Thousands[thousandsInLast4Digits - 1] + " thousand");
-                        context.Session.SetString("number", Thousands[thousandsInLast4Digits - 1] + " thousand");
+                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 10] + " thousand");
+                        // Попробовать -1
                     }
                     else
                     {
@@ -43,12 +44,11 @@
                         result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
 
 
-                        //await context.Response.WriteAsync("Your number is " + Thousands[thousandsInLast4Digits - 1] + " thousand " + result);
-                        context.Session.SetString("number", Thousands[thousandsInLast4Digits - 1] + " thousand " + result);
-
+                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 10] + " thousand " + result);
+                        // Попробовать -1
                     }
-
                 }
+
             }
             catch (Exception)
             {

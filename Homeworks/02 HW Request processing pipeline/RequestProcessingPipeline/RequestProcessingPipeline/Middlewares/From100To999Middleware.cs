@@ -45,14 +45,8 @@
 
                         //await context.Response.WriteAsync("Your number is " + Hundreds[hundredsInLast3Digits - 1] + " hundred " + result);
                         context.Session.SetString("number", Hundreds[hundredsInLast3Digits - 1] + " hundred " + result);
-
                     }
-
                 }
-
-
-
-
             }
             catch (Exception)
             {
