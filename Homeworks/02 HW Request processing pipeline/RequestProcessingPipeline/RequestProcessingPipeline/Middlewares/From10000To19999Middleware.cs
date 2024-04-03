@@ -20,7 +20,11 @@
                 number = Math.Abs(number);
 
                 int last5Digits = number % 100000;
-                int tensThousandsInLast5Digits = last5Digits / 10000;
+                int tensThousandsInLast5Digits = last5Digits / 10000; // 1 из числа 19123
+
+
+
+                int teensThousandsInLast5Digits = last5Digits / 1000; // 19 из числа 19123
 
                 string? result = string.Empty;
 
@@ -33,20 +37,24 @@
 
                 else
                 {
-                    if (last5Digits % 1000 == 0)
+
+                    if (teensThousandsInLast5Digits >= 10 && teensThousandsInLast5Digits <= 19)
                     {
-                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 10] + " thousand");
-                        // Попробовать -1
-                    }
-                    else
-                    {
-                        await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
-                        result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
+                        if (last5Digits % 1000 == 0)
+                        {
+                            await context.Response.WriteAsync("Your number is " + TensThousands[teensThousandsInLast5Digits - 10] + " thousand");
+                        }
+                        else
+                        {
+                            await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
+                            result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
 
 
-                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 10] + " thousand " + result);
-                        // Попробовать -1
+                            await context.Response.WriteAsync("Your number is " + TensThousands[teensThousandsInLast5Digits - 10] + " thousand " + result);
+                        }
                     }
+
+
                 }
 
             }

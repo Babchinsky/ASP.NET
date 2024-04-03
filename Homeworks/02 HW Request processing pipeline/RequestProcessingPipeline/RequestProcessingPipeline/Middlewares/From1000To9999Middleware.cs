@@ -20,8 +20,11 @@
 
                 int last4Digits = number % 10000;
                 int thousandsInLast4Digits = last4Digits / 1000;
+                
 
                 string? result = string.Empty;
+
+                int hundredsInLast4Digits = (last4Digits / 100) % 10; // 9 из 1900 
 
                 if (last4Digits < 1000)
                 {
@@ -32,7 +35,7 @@
                 }
                 else
                 {
-                    if (last4Digits % 100 == 0)
+                    if (last4Digits % 100 == 0 && hundredsInLast4Digits == 0)
                     {
                         //await context.Response.WriteAsync("Your number is " + Thousands[thousandsInLast4Digits - 1] + " thousand");
                         context.Session.SetString("number", Thousands[thousandsInLast4Digits - 1] + " thousand");
@@ -41,7 +44,6 @@
                     {
                         await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                         result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
-
 
                         //await context.Response.WriteAsync("Your number is " + Thousands[thousandsInLast4Digits - 1] + " thousand " + result);
                         context.Session.SetString("number", Thousands[thousandsInLast4Digits - 1] + " thousand " + result);
