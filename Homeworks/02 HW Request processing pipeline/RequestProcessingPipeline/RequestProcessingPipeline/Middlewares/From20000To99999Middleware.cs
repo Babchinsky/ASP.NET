@@ -50,7 +50,16 @@
                         await _next.Invoke(context); // Контекст запроса передаем следующему компоненту
                         result = context.Session.GetString("number"); // получим число от компонента FromOneToTenMiddleware
 
-                        await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 2] + " thousand " + result);
+                        int thousandsInNum = number / 1000;
+                        if (thousandsInNum % 10 == 0)
+                        {
+                            await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 2] + " thousand " + result);
+                        }
+                        else
+                        {
+                            await context.Response.WriteAsync("Your number is " + TensThousands[tensThousandsInLast5Digits - 2] + " "+ result);
+                        }
+                        
                     }
 
                 }
