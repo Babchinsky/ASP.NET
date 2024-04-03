@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01 HW 1.04.2024 Intoduction", "01 HW 1.04.2024 Intoduction\01 HW 1.04.2024 Intoduction.csproj", "{E23D86EC-690E-4606-8BF3-AA722AB329DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01 HW 01.04.2024 WeatherWebsite", "01 HW 01.04.2024 WeatherWebsite\01 HW 01.04.2024 WeatherWebsite.csproj", "{885AF15D-9516-4B19-AAB9-F2654AD3893D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E23D86EC-690E-4606-8BF3-AA722AB329DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E23D86EC-690E-4606-8BF3-AA722AB329DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E23D86EC-690E-4606-8BF3-AA722AB329DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E23D86EC-690E-4606-8BF3-AA722AB329DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{885AF15D-9516-4B19-AAB9-F2654AD3893D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885AF15D-9516-4B19-AAB9-F2654AD3893D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{885AF15D-9516-4B19-AAB9-F2654AD3893D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885AF15D-9516-4B19-AAB9-F2654AD3893D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {6503E1D5-B6A9-4E60-94D4-1993DC27DD13}
+		SolutionGuid = {A5C1EBA3-E7A9-4ED3-8374-50ADDE092379}
 	EndGlobalSection
 EndGlobal

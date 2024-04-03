@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>_01_HW_1._04._2024_Intoduction</RootNamespace>
+    <RootNamespace>_01_HW_01._04._2024_WeatherWebsite</RootNamespace>
   </PropertyGroup>
 
 </Project>

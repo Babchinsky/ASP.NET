@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Website</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link href="style.css" rel="stylesheet" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+
+<body>
+    <header>
+        <h1>Current Weather</h1>
+        <form action="">
+            <div id="search">
+                <input id="City" type="text" placeholder="Search" />
+                <button id="search_btn" type="submit"></button>
+            </div>
+        </form>
+    </header>
+    <main>
+        <section id="cur_day_sect">
+            <div class="sect-title">
+                <p id="city-name"></p>
+                <p>05.03.2020</p>
+            </div>
+            <div class="info" id="Fdata">
+                <div class="icon-block">
+                    <p class="sec-text">Sunny</p>
+                    <img src="https://cdn-icons-png.flaticon.com/128/4814/4814268.png" alt="weather" />
+                </div>
+                <div class="temp-block">
+                    <p><span id="temp-value">18</span> °C</p>
+                </div>
+                <div class="add-info">
+                    <p>Min temperature</p>
+                    <p> <span id="min-temp">16</span> °C</p>
+
+                    <p>Max temperature</p>
+                    <p> <span id="max-temp">16</span> °C</p>
+
+                    <p>Wind speed (km/h)</p>
+                    <p id="wind-speed"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="horly_sect">
+            <div class="sect-title">
+                <p class="primary-text">Hourly</p>
+                <p class="primary-text"></p>
+            </div>
+            <div class="info" id="Sdata">
+                <div class="data">
+                    <p id="weekday" class="sec-text">Sunday</p>
+                    <div></div>
+                    <p>Forecast</p>
+                    <p>Temp(°C)</p>
+                    <p>Wind (km/h)</p>
+                </div>
+                <div class="items" id="data">
+                    <div class="weather-item">
+                        <p class="sec-text">7:00</p>
+                        <img src="https://cdn-icons-png.flaticon.com/128/4814/4814268.png" alt="weather" />
+                        <p>Sunnt</p>
+                        <p>18</p>
+                        <p>2</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <section id="error_sect">
+        <p id="error-code">404</p>
+        <p id="error-text">not found</p>
+        <p id="error-help">Please enter a different city</p>
+    </section>
+    <footer>
+    </footer>
+
+
+    <script type="module">
+        import DOM from "./DOM.js";
+        const API = await import("./API.js");
+        let data;
+
+
+        $("form").on("submit", async function (e) {
+            e.preventDefault();
+
+            data = await API.SendRequest($("#City").val());
+            DOM.Display(data);
+
+            data = await API.SendForecast($("#City").val());
+
+            DOM.DisplayHourly(data);
+
+        })
+
+    </script>
+
+
+</body>
+</html>
