@@ -1,0 +1,113 @@
+﻿/*html {
+    margin: 0;
+    font-family: 'Sans Serif Collection';
+}
+
+body {
+    background: #cecece;
+}
+
+.main {
+    margin: 2% auto;
+    width: 99%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.filmplate {
+    margin: 1%;
+    width: 49.5%;
+    height: 45vh;
+    background: #4d4d4d;
+    border: 3px outset #3f3f3f;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image {
+    width: 44%;
+    height: 98%;
+    border: 2px outset #535353;
+    border-radius: 7px;
+}
+
+.finfo {
+    margin-left: 1%;
+    width: 55%;
+    color: white;
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+}
+
+#min {
+    font-size: 1em;
+}
+*/
+
+
+/* Обнуление стилей и базовая настройка */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Sans Serif Collection', sans-serif;
+    background-color: #f0f0f0;
+}
+
+/* Основной контейнер */
+.main {
+    margin: 2% auto;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+/* Карточка фильма */
+.filmplate {
+    margin: 2%;
+    width: 45%;
+    height: auto;
+    background: grey;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+    .filmplate:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+/* Изображение фильма */
+.image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Информация о фильме */
+.finfo {
+    padding: 10px;
+    color: #fff;
+}
+
+    /* Заголовок фильма */
+    .finfo span {
+        display: block;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+/* Описание фильма */
+#min {
+    font-size: 1em;
+}
