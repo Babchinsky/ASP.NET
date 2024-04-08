@@ -1,0 +1,23 @@
+﻿@model _3_HW_Films_MVC.Models.Movie
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="delete">
+    <h1>Вы точно хотите удалить этот фильм?</h1>
+    <div class="mplate secnd">
+        <img class="img" src="@Html.DisplayFor(model => model.PosterPath)" />
+        <div class="info">
+            <span>@Html.DisplayFor(model => model.Title)</span>
+            <span>@Html.DisplayFor(model => model.Director)</span>
+            <span>@Html.DisplayFor(model => model.Genre)</span>
+            <span>@Model.Date.ToShortDateString()</span>
+            <span>@Html.DisplayFor(model => model.Description)</span>
+            <form asp-action="Delete" class="botm sec">
+                <a asp-action="Index" class="inbutton">Нет</a>
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Да" class="inbutton" />
+            </form>
+        </div>
+    </div>
+</div>

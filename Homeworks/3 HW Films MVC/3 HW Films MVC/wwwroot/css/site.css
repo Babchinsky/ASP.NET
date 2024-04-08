@@ -1,56 +1,4 @@
-﻿/*html {
-    margin: 0;
-    font-family: 'Sans Serif Collection';
-}
-
-body {
-    background: #cecece;
-}
-
-.main {
-    margin: 2% auto;
-    width: 99%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.filmplate {
-    margin: 1%;
-    width: 49.5%;
-    height: 45vh;
-    background: #4d4d4d;
-    border: 3px outset #3f3f3f;
-    border-radius: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.image {
-    width: 44%;
-    height: 98%;
-    border: 2px outset #535353;
-    border-radius: 7px;
-}
-
-.finfo {
-    margin-left: 1%;
-    width: 55%;
-    color: white;
-    font-size: 1.2em;
-    display: flex;
-    flex-direction: column;
-}
-
-#min {
-    font-size: 1em;
-}
-*/
-
-
-/* Обнуление стилей и базовая настройка */
+﻿/* Обнуление стилей и базовая настройка */
 html, body {
     margin: 0;
     padding: 0;
@@ -110,4 +58,250 @@ html, body {
 /* Описание фильма */
 #min {
     font-size: 1em;
+}
+
+
+/*CREATE*/
+.create .left {
+    float: left;
+    margin-right: 20px;
+}
+
+.create .image {
+    max-width: 200px;
+    max-height: 300px;
+    border: 1px solid #ccc;
+}
+
+.create .info {
+    overflow: hidden;
+}
+
+.create .inputs {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.create .area {
+    height: 100px; /* Вы можете изменить высоту по вашему усмотрению */
+}
+
+.create .botm {
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.create .inbutton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+    .create .inbutton:hover {
+        background-color: #0056b3;
+    }
+
+.create .text-danger {
+    color: #dc3545;
+    font-size: 12px;
+}
+
+
+
+.details {
+    text-align: center;
+}
+
+    .details .mplate {
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .details .img {
+        max-width: 100px;
+        max-height: 150px;
+        margin-right: 20px;
+    }
+
+    .details .info {
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+    }
+
+        .details .info span {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+    .details .bot {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+    }
+
+        .details .bot:hover {
+            background-color: #0056b3;
+        }
+
+
+
+
+
+
+.delete {
+    text-align: center;
+}
+
+    .delete h1 {
+        margin-bottom: 20px;
+    }
+
+    .delete .mplate {
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .delete .img {
+        max-width: 100px;
+        max-height: 150px;
+        margin-right: 20px;
+    }
+
+    .delete .info {
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+    }
+
+        .delete .info span {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+    .delete .botm {
+        margin-top: 20px;
+    }
+
+    .delete .inbutton {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-right: 10px;
+    }
+
+        .delete .inbutton:hover {
+            background-color: #0056b3;
+        }
+
+
+
+
+
+.edit {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .edit .mplate {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .edit .left {
+        flex: 0 0 auto;
+        margin-right: 20px;
+    }
+
+    .edit .image {
+        width: 200px;
+        height: 300px;
+        border: 1px solid #ccc;
+    }
+
+    .edit .info {
+        flex: 1 1 auto;
+    }
+
+    .edit .inputs {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit .area {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    .edit .botm {
+        margin-top: 20px;
+        text-align: right;
+    }
+
+    .edit .inbutton {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-left: 10px;
+    }
+
+        .edit .inbutton:first-child {
+            margin-left: 0;
+        }
+
+        .edit .inbutton:hover {
+            background-color: #0056b3;
+        }
+
+    .edit .text-danger {
+        color: #dc3545;
+        font-size: 12px;
+    }
+
+
+a {
+    text-decoration: none; /* Убираем подчёркивание */
+    color: inherit; /* Используем цвет текста, определённый для родительского элемента */
 }
