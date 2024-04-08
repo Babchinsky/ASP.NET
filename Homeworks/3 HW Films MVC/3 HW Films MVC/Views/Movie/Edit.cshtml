@@ -8,6 +8,7 @@
         <div class="left">
             <img class="image" id="previewImage2" src="@Url.Content(Model.PosterPath)" />
             <input asp-for="PosterPath" class="leftbtn" id="addimg2" type="file" name="uploadedFile" value="Добавить" accept="image/*" />
+            @* <span asp-validation-for="PosterPath" class="text-danger"></span> *@
         </div>
         <div class="info">
             <input asp-for="Title" type="text" class="inputs" placeholder="Название фильма" />
@@ -19,6 +20,7 @@
             <input asp-for="Date" type="date" class="inputs" />
             <span asp-validation-for="Date" class="text-danger"></span>
             <textarea asp-for="Description" class="inputs area" placeholder="Описание"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
             <div class="botm trd">
                 <a asp-action="Index" class="inbutton">Отмена</a>
                 <input type="submit" value="Сохранить" class="inbutton" />

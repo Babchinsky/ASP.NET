@@ -94,5 +94,17 @@ namespace _3_HW_Films_MVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+     
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> CheckTitle(string title)
+        {
+            List<string> titles = await _context.Movies.Select(m => m.Title).ToListAsync();
+
+            // Если уже такие названия есть в БД.
+            if (titles.Contains(title)) return Json(false);
+
+            return Json(true);
+        }
     }
 }
