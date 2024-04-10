@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore; // Добавьте эту директив
 
 namespace _07_HW_09._04._2024.Repositories
 {
-    public class MessagesRepository : IMessageRepository
+    public class MessagesRepository : IMessagesRepository
     {
         private readonly MessagesContext _context;
 
@@ -14,7 +14,7 @@ namespace _07_HW_09._04._2024.Repositories
 
         public async Task<List<Message>> GetMessageList()
         {
-            return await _context.Messages.ToListAsync();
+            return await _context.Messages.Include(m => m.User).ToListAsync();
         }
     }
 }

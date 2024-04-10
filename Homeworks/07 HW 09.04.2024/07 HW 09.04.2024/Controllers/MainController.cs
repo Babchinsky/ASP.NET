@@ -5,19 +5,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using _07_HW_09._04._2024.Models;
+using _07_HW_09._04._2024.Repositories;
 
 namespace _07_HW_09._04._2024.Controllers
 {
     public class MainController : Controller
     {
-        private readonly MessagesContext _context;
+        //private readonly MessagesContext _context;
 
-        public MainController(MessagesContext context)
+        //public MainController(MessagesContext context)
+        //{
+        //    _context = context;
+        //}
+        IMessagesRepository _messageRepository;
+        public MainController(IMessagesRepository messageRepository)
         {
-            _context = context;
+            _messageRepository = messageRepository;
         }
-
 
 
 		// GET: Messages
@@ -29,7 +35,7 @@ namespace _07_HW_09._04._2024.Controllers
             }
             
 
-            return View(await _context.Messages.Include(m => m.User).ToListAsync());
+            return View(await _messageRepository.GetMessageList());
 			//Добавив Include(m => m.User), вы указываете Entity Framework загрузить связанный объект пользователя для каждого сообщения.
 		}
 

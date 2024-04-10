@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore; 
-using _07_HW_09._04._2024.Models; 
+using _07_HW_09._04._2024.Models;
+using _07_HW_09._04._2024.Repositories;
 
 var builder = WebApplication.CreateBuilder(args); // Создаем экземпляр объекта WebApplicationBuilder для конфигурации приложения
 
@@ -12,6 +13,8 @@ builder.Services.AddDbContext<MessagesContext>(options => options.UseSqlServer(c
 
 builder.Services.AddControllersWithViews(); // Регистрируем поддержку контроллеров и представлений
 
+
+builder.Services.AddScoped<IMessagesRepository, MessagesRepository>();
 
 var app = builder.Build(); // Строим объект приложения на основе конфигурации
 
