@@ -1,0 +1,23 @@
+﻿@model _07_HW_09._04._2024.Models.MessageModel
+
+@{
+    ViewData["Title"] = "Запостить";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <p>Здравствуйте, @ViewData["Name"]</p>
+    <a class="navbar-brand" asp-area="" asp-action="Exit">Выход</a>
+</header>
+
+
+
+<form asp-action="PostMessage">
+    <div>
+        <label asp-for="MessageText"></label>
+        <input asp-for="MessageText" class="form-control" />
+        <span asp-validation-for="MessageText" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary" value="Post">Запостить сообщение</button>
+</form>

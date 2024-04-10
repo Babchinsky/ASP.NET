@@ -1,0 +1,39 @@
+﻿@model _07_HW_09._04._2024.Models.LoginModel
+
+@{
+    ViewBag.Title = "Вход";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    @* @Html.ActionLink("Вернуться на главную", "Index", "Main")
+    @Html.ActionLink("Регистрация", "Register", "Account") *@
+    <a class="navbar-brand" asp-area="" asp-controller="Main" asp-action="Index">Войти как гость</a>
+    <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+</header>
+
+
+<h1>Вход</h1>
+<hr />
+
+
+<form asp-action="Login">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
+        <label asp-for="Login"></label>
+        <input asp-for="Login" class="form-control" />
+        <span asp-validation-for="Login" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary" value="Login">Войти</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

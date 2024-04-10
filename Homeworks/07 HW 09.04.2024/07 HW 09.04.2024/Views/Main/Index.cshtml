@@ -1,0 +1,52 @@
+﻿@model IEnumerable<_07_HW_09._04._2024.Models.Message>
+
+
+@{
+    ViewData["Title"] = "Главная";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<header>
+    <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
+    <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+</header>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MessageDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MessageDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
