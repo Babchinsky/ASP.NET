@@ -12,11 +12,17 @@ namespace _07_HW_09._04._2024.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly MessagesContext _context;
+        //private readonly MessagesContext _context;
 
-        public AccountController(MessagesContext context)
+        //public AccountController(MessagesContext context)
+        //{
+        //    _context = context;
+        //}
+        IUsersRepository _usersRepository;
+
+        public AccountController(IUsersRepository usersRepository)
         {
-            _context = context;
+            _usersRepository = usersRepository;
         }
 
         public ActionResult Login()
@@ -33,14 +39,15 @@ namespace _07_HW_09._04._2024.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _context.Users.AnyAsync())
+                if (await _usersRepository.AreUsersNotEmpty())
                 {
-                    var user = await _context.Users.FirstOrDefaultAsync(a => a.Name == loginModel.Login);
+                    //var user = await _context.Users.FirstOrDefaultAsync(a => a.Name == loginModel.Login);
+                    var user = await _usersRepository.GetUserByName(loginModel.Login);
                     if (user != null)
                     {
                         if (loginModel.Password == user.Pwd)
                         {
-                            HttpContext.Session.SetString("UserId", user.Id.ToString());
+                            HttpContext.Session.SetInt32("UserId", user.Id);
                             return RedirectToAction("Index", "PostMessage");
                         }
                         
@@ -74,8 +81,7 @@ namespace _07_HW_09._04._2024.Controllers
                 user.Name = reg.Login;
                 user.Pwd = reg.Password;
                 
-                _context.Users.Add(user);
-                _context.SaveChanges();
+                _usersRepository.AddUserAndSave(user);
                 return RedirectToAction("Login");
             }
 

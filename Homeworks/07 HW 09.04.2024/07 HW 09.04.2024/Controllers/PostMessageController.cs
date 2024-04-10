@@ -1,29 +1,39 @@
 ﻿using _07_HW_09._04._2024.Models;
+using _07_HW_09._04._2024.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _07_HW_09._04._2024.Controllers
 {
 	public class PostMessageController : Controller
 	{
-		private readonly MessagesContext _context;
+		//private readonly MessagesContext _context;
 
-		public PostMessageController(MessagesContext context)
+		//public PostMessageController(MessagesContext context)
+		//{
+		//	_context = context;
+		//}
+		IPostMessageRepository _postMessageRepository;
+		public PostMessageController(IPostMessageRepository postMessageRepository)
 		{
-			_context = context;
+			_postMessageRepository = postMessageRepository;
 		}
 
 		public IActionResult Index()
 		{
-            if (HttpContext.Session.GetString("UserId") == null)
+            if (HttpContext.Session.GetInt32("UserId") == null)
             {
                 return RedirectToAction("Index", "Main");
             }
 
-            var userId = HttpContext.Session.GetString("UserId");
-			var userName = _context.Users.FirstOrDefault(u => u.Id == Convert.ToInt32(userId));
+            var userId = HttpContext.Session.GetInt32("UserId");
+			//var userName = _context.Users.FirstOrDefault(u => u.Id == userId);
+			var user = _postMessageRepository.GetUserById(Convert.ToInt32(userId));
 
-			// Проверяем, равен ли userName null, и устанавливаем ViewData["Name"] в null, если да
-			ViewData["Name"] = userName != null ? userName.Name : null;
+
+
+
+            // Проверяем, равен ли userName null, и устанавливаем ViewData["Name"] в null, если да
+            ViewData["Name"] = user != null ? user.Name : null;
 
 
 			return View();
@@ -35,11 +45,11 @@ namespace _07_HW_09._04._2024.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                var userId = HttpContext.Session.GetString("UserId");
+                var userId = HttpContext.Session.GetInt32("UserId");
                 // Получаем пользователя из базы данных по его идентификатору
-                var user = _context.Users.FirstOrDefault(u => u.Id == Convert.ToInt32(userId));
+                var user = _postMessageRepository.GetUserById(Convert.ToInt32(userId));
 
-				if (user != null)
+                if (user != null)
 				{
                     // Создайте новый объект сообщения и заполните его данными из модели
                     var message = new Message
@@ -50,8 +60,7 @@ namespace _07_HW_09._04._2024.Controllers
                     };
 
                     // Добавьте новое сообщение в базу данных
-                    _context.Messages.Add(message);
-                    _context.SaveChanges();
+                    _postMessageRepository.PostMessage(message);
                 }
 
                 

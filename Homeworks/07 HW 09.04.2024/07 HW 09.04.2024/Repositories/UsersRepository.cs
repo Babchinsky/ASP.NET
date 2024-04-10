@@ -1,5 +1,6 @@
 ﻿using _07_HW_09._04._2024.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace _07_HW_09._04._2024.Repositories
 {
@@ -11,20 +12,23 @@ namespace _07_HW_09._04._2024.Repositories
         {
             _usersContext = context;
         }
+
         public Task AddUserAndSave(User user)
         {
-            throw new NotImplementedException();
+            _usersContext.Users.AddAsync(user);
+            return _usersContext.SaveChangesAsync();
         }
 
         public Task<User> GetUserByName(string name)
         {
-            throw new NotImplementedException();
+            return _usersContext.Users.FirstOrDefaultAsync(a => a.Name == name);
         }
 
-        public async Task<List<User>> GetUserList()
+        public async Task<bool> AreUsersNotEmpty()
         {
-            //return await _usersContext.Users.AnyAsync();
-            throw new NotImplementedException();
+            return await _usersContext.Users.AnyAsync();
         }
+
+        
     }
 }

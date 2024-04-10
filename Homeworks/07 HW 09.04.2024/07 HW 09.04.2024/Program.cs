@@ -15,6 +15,8 @@ builder.Services.AddControllersWithViews(); // Регистрируем подд
 
 
 builder.Services.AddScoped<IMessagesRepository, MessagesRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IPostMessageRepository, PostMessageRepository>();
 
 var app = builder.Build(); // Строим объект приложения на основе конфигурации
 
