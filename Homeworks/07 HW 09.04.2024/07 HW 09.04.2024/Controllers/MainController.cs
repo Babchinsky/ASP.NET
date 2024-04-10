@@ -29,8 +29,6 @@ namespace _07_HW_09._04._2024.Controllers
             }
             
 
-
-
             return View(await _context.Messages.Include(m => m.User).ToListAsync());
 			//Добавив Include(m => m.User), вы указываете Entity Framework загрузить связанный объект пользователя для каждого сообщения.
 		}
