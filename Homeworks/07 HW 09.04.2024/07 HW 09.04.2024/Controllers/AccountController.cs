@@ -4,6 +4,7 @@ using System.Text;
 using System.Security.Cryptography;
 
 using _07_HW_09._04._2024.Models;
+using _07_HW_09._04._2024.Repositories;
 
 
 
@@ -45,11 +46,6 @@ namespace _07_HW_09._04._2024.Controllers
                         
                     }
                     ModelState.AddModelError("", "Логин или пользователь введён не верно!");
-                    //else
-                    //{
-                    //    ModelState.AddModelError("", "Пользователь c таким именем не найден");
-                    //}
-
                 }
             }
             else
@@ -90,16 +86,16 @@ namespace _07_HW_09._04._2024.Controllers
 
 
 
-        public User GetUserById(string userId)
-        {
-            if (int.TryParse(userId, out int id))
-            {
-                return _context.Users.FirstOrDefault(u => u.Id == id);
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //public User GetUserById(string userId)
+        //{
+        //    if (int.TryParse(userId, out int id))
+        //    {
+        //        return _context.Users.FirstOrDefault(u => u.Id == id);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
     }
 }
