@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Security.Cryptography;
 
 using _07_HW_09._04._2024.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 
 namespace _07_HW_09._04._2024.Controllers
@@ -41,13 +42,14 @@ namespace _07_HW_09._04._2024.Controllers
                             HttpContext.Session.SetString("UserId", user.Id.ToString());
                             return RedirectToAction("Index", "PostMessage");
                         }
-                        ModelState.AddModelError("", "Пароль введён не верно!");
+                        
                     }
-                    else
-                    {
-                        ModelState.AddModelError("", "Пользователь c таким именем не найден");
-                    }
-                    
+                    ModelState.AddModelError("", "Логин или пользователь введён не верно!");
+                    //else
+                    //{
+                    //    ModelState.AddModelError("", "Пользователь c таким именем не найден");
+                    //}
+
                 }
             }
             else
