@@ -12,10 +12,10 @@ namespace _07_HW_09._04._2024.Controllers
 		//{
 		//	_context = context;
 		//}
-		IPostMessageRepository _postMessageRepository;
-		public PostMessageController(IPostMessageRepository postMessageRepository)
+		IMessagesRepository _messagesRepository;
+		public PostMessageController(IMessagesRepository messageRepository)
 		{
-			_postMessageRepository = postMessageRepository;
+            _messagesRepository = messageRepository;
 		}
 
 		public IActionResult Index()
@@ -27,7 +27,7 @@ namespace _07_HW_09._04._2024.Controllers
 
             var userId = HttpContext.Session.GetInt32("UserId");
 			//var userName = _context.Users.FirstOrDefault(u => u.Id == userId);
-			var user = _postMessageRepository.GetUserById(Convert.ToInt32(userId));
+			var user = _messagesRepository.GetUserById(Convert.ToInt32(userId));
 
 
 
@@ -47,7 +47,7 @@ namespace _07_HW_09._04._2024.Controllers
 			{
                 var userId = HttpContext.Session.GetInt32("UserId");
                 // Получаем пользователя из базы данных по его идентификатору
-                var user = _postMessageRepository.GetUserById(Convert.ToInt32(userId));
+                var user = _messagesRepository.GetUserById(Convert.ToInt32(userId));
 
                 if (user != null)
 				{
@@ -60,7 +60,7 @@ namespace _07_HW_09._04._2024.Controllers
                     };
 
                     // Добавьте новое сообщение в базу данных
-                    _postMessageRepository.PostMessage(message);
+                    _messagesRepository.PostMessage(message);
                 }
 
                 

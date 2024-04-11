@@ -16,5 +16,16 @@ namespace _07_HW_09._04._2024.Repositories
         {
             return await _context.Messages.Include(m => m.User).ToListAsync();
         }
+
+        public User GetUserById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == userId);
+        }
+
+        public async Task PostMessage(Message message)
+        {
+            _context.Messages.Add(message);
+            _context.SaveChanges();
+        }
     }
 }
