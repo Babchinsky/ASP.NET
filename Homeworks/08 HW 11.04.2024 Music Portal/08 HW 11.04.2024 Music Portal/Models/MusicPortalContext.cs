@@ -11,5 +11,6 @@ namespace _08_HW_11._04._2024_Music_Portal.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Artist> Artists { get; set; }
     }
 }
