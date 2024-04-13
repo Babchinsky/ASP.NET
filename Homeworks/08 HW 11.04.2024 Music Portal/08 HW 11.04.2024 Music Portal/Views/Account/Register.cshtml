@@ -1,4 +1,5 @@
-﻿@{
+﻿@model _08_HW_11._04._2024_Music_Portal.Models.RegisterModel;
+@{
     ViewData["Title"] = "Регистрация";
 }
 
@@ -15,18 +16,27 @@
                 <div class="card">
                     <div class="card-header bg-dark text-white">Регистрация</div>
                     <div class="card-body">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        }
                         <form method="post">
                             <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email" required />
+                                <label asp-for="Login"></label>
+                                <input asp-for="Login" class="form-control" />
+                                <span asp-validation-for="Login" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label for="password">Пароль:</label>
-                                <input type="password" class="form-control" id="password" name="password" required />
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" type="password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label for="confirmPassword">Подтвердите пароль:</label>
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
+                                <label asp-for="PasswordConfirm"></label>
+                                <input asp-for="PasswordConfirm" type="password" class="form-control" />
+                                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                         </form>
@@ -41,5 +51,6 @@
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
     }
+
 </body>
 </html>

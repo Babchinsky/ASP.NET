@@ -4,8 +4,8 @@
     {
         public int Id { get; set; } 
         public string Title { get; set; } 
-        public string Artist { get; set; } 
         public int Year { get; set; }  
+        public Artist Artist { get; set; }
         public Genre Genre { get; set; }
         public User User {  get; set; }
     }

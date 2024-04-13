@@ -51,11 +51,9 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
                 if (user.Password != hash.ToString())
                 {
-                    ModelState.AddModelError("", "Wrong login or password!");
+                    ModelState.AddModelError("", "Неверный логин или пароль!");
                     return View(logon);
                 }
-                //HttpContext.Session.SetString("FirstName", user.FirstName);
-                //HttpContext.Session.SetString("LastName", user.LastName);
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 return RedirectToAction("Index", "Home");
             }
@@ -73,9 +71,18 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User();
+                // Проверяем, существует ли пользователь с таким же логином
+                var existingUser = _context.Users.FirstOrDefault(u => u.Login == reg.Login);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("", "Пользователь с таким логином уже существует.");
+                    return View(reg);
+                }
 
+                // Если пользователь с таким логином не найден, создаем нового пользователя
+                User user = new User();
                 user.Login = reg.Login;
+                user.AccessLevel = AccessLevel.UnverifiedUser;
 
                 byte[] saltbuf = new byte[16];
 

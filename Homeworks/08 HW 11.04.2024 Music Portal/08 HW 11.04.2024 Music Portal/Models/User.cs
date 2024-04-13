@@ -2,7 +2,6 @@
 {
     public enum AccessLevel
     {
-        Guest,
         UnverifiedUser,
         VerifiedUser,
         Admin

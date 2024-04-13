@@ -4,11 +4,14 @@ namespace _08_HW_11._04._2024_Music_Portal.Models
 {
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле '{0}' обязательно для заполнения")]
+        [Display(Name = "Логин")]
         public string? Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле '{0}' обязательно для заполнения")]
         [DataType(DataType.Password)]
+        [Display(Name = "Пароль")]
         public string? Password { get; set; }
+
     }
 }
