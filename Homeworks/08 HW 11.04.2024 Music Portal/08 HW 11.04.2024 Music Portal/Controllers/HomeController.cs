@@ -19,18 +19,13 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-            //var user = _messagesRepository.GetUserById(Convert.ToInt32(userId));
+
 
             // Проверяем, равен ли userName null, и устанавливаем ViewData["Name"] в null, если да
             ViewData["Name"] = user != null ? user.Login : "Гость";
 
             var songs = _context.Songs.Include(s => s.Artist).Include(s => s.Genre).ToList();
             var users = _context.Users.ToList();
-
-
-            // Получение данных о пользователях и песнях
-            //var users = GetUsersFromDatabase();
-            //var songs = GetSongsFromDatabase();
 
             // Создание объекта UserAndSongViewModel и заполнение его данными
             var viewModel = new UserAndSongViewModel
@@ -39,11 +34,16 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                 Songs = songs
             };
 
+            // Передаем пользователя в представление
+            ViewData["CurrentUser"] = user;
+
             // Передача модели в представление
             return View(viewModel);
-
-
-            //return View(songs);
         }
+
+
+
+        
+
     }
 }
