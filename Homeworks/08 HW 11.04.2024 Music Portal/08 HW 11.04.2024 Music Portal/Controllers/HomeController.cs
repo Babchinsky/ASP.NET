@@ -25,8 +25,25 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             ViewData["Name"] = user != null ? user.Login : "Гость";
 
             var songs = _context.Songs.Include(s => s.Artist).Include(s => s.Genre).ToList();
+            var users = _context.Users.ToList();
 
-            return View(songs);
+
+            // Получение данных о пользователях и песнях
+            //var users = GetUsersFromDatabase();
+            //var songs = GetSongsFromDatabase();
+
+            // Создание объекта UserAndSongViewModel и заполнение его данными
+            var viewModel = new UserAndSongViewModel
+            {
+                Users = users,
+                Songs = songs
+            };
+
+            // Передача модели в представление
+            return View(viewModel);
+
+
+            //return View(songs);
         }
     }
 }
