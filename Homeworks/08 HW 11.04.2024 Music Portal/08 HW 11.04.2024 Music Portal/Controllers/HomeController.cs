@@ -40,10 +40,5 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             // Передача модели в представление
             return View(viewModel);
         }
-
-
-
-        
-
     }
 }

@@ -59,19 +59,18 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
         public IActionResult AddArtist()
         {
-
             return RedirectToAction("Index", "Home");
         }
 
         public IActionResult AddGenre()
         {
 
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("AddGenre", "Data");
+            return View("AddGenre");
         }
 
         public IActionResult AddSong()
         {
-
             return RedirectToAction("Index", "Home");
         }
     }
