@@ -14,21 +14,27 @@
     <p>Здравствуйте, @ViewData["Name"]</p>
     <div class="container">
         
-            
+
             <div class="row mb-3">
-            @if (currentUser != null && (currentUser.AccessLevel == AccessLevel.Admin || currentUser.AccessLevel == AccessLevel.VerifiedUser))
+            @if (currentUser != null && currentUser.AccessLevel == AccessLevel.Admin)
             {
                 <div class="col">
-                    <a asp-action="AddArtist" asp-controller="Admin" class="btn btn-success">Добавить Исполнителя</a>
+                    <a asp-action="Index" asp-controller="Artists" class="btn btn-success">Исполнители</a>
                 </div>
                 <div class="col">
-                    <a asp-action="AddGenre" asp-controller="Admin" class="btn btn-success">Добавить Жанр</a>
+                    <a asp-action="Index" asp-controller="Genres" class="btn btn-success">Жанры</a>
                 </div>
-           
+                
+            } 
+            
+            @if (currentUser != null && (currentUser.AccessLevel == AccessLevel.VerifiedUser || currentUser.AccessLevel == AccessLevel.Admin))
+            {
                 <div class="col">
-                    <a asp-action="AddSong" asp-controller="Admin" class="btn btn-success">Добавить Песню</a>
+                    <a asp-action="Index" asp-controller="Songs" class="btn btn-success">Песни</a>
                 </div>
             }
+            
+           
                
             </div>
         
