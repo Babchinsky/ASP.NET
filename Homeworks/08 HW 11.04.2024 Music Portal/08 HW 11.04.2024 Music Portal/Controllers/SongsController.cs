@@ -25,6 +25,13 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                                     .Include(s => s.Artist)
                                     .Include(s => s.Genre)
                                     .ToListAsync();
+
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            // Передаем пользователя в представление
+            ViewData["CurrentUser"] = user;
+
             return View(songs);
         }
 

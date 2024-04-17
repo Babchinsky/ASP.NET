@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentUser = ViewData["CurrentUser"] as _08_HW_11._04._2024_Music_Portal.Models.User;
 }
 
 <h1>Index</h1>
@@ -44,11 +45,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Genre.Name)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                    @* <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                </td>
+                
+
+                    @if (currentUser != null && currentUser.AccessLevel == AccessLevel.Admin)
+                    {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                        @* <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
+                        <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                    </td>
+                    }
+               
             </tr>
         }
     </tbody>
