@@ -47,30 +47,50 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         }
 
         // GET: Songs/Create
-        // GET: Songs/Create
         public IActionResult Create()
         {
-            ViewBag.Artists = _context.Artists.ToList(); // Предположим, что у вас есть DbSet<Artist> в контексте базы данных
-            ViewBag.Genres = _context.Genres.ToList(); // Предположим, что у вас есть DbSet<Genre> в контексте базы данных
+            ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name");
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "Id", "Name");
             return View();
         }
-
 
         // POST: Songs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Year,ArtistId,GenreId")] Song song)
+        public async Task<IActionResult> Create([Bind("Id,Title,Year,GenreId,ArtistId")] Song song)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(song);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //if (ModelState.IsValid)
+                //{
+                    // Получение идентификатора текущего пользователя
+                    var userId = HttpContext.Session.GetInt32("UserId");
+
+                    // Установка идентификатора текущего пользователя в объекте Song
+                    song.UserId = (int)userId;
+
+                    // Добавление песни в контекст данных и сохранение изменений
+                    _context.Add(song);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                //}
             }
+            catch (Exception ex)
+            {
+                // Обработка исключения, если что-то пошло не так при сохранении
+                // Лучше здесь логировать или обрабатывать ошибку, чем просто перенаправлять на Index
+                // Например:
+                // logger.LogError(ex, "An error occurred while saving the song.");
+                // ModelState.AddModelError("", "An error occurred while saving the song.");
+            }
+
+            // Если ModelState не валиден, возвращаемся к форме создания песни для отображения ошибок
+            // или дополнительных действий, если необходимо
             return View(song);
         }
+
 
         // GET: Songs/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -85,21 +105,15 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             {
                 return NotFound();
             }
-
-            // Получение списка всех исполнителей и жанров
-            ViewBag.Artists = await _context.Artists.ToListAsync();
-            ViewBag.Genres = await _context.Genres.ToListAsync();
-
             return View(song);
         }
-
 
         // POST: Songs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year,ArtistId,GenreId")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year")] Song song)
         {
             if (id != song.Id)
             {
@@ -110,8 +124,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             {
                 try
                 {
-                    // Вместо Update используем Attach для отслеживания изменений
-                    _context.Attach(song).State = EntityState.Modified;
+                    _context.Update(song);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -129,7 +142,6 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             }
             return View(song);
         }
-
 
         // GET: Songs/Delete/5
         public async Task<IActionResult> Delete(int? id)

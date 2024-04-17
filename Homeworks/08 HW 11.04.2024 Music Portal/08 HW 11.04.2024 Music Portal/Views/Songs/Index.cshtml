@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<_08_HW_11._04._2024_Music_Portal.Models.Song>
 
 @{
-    ViewData["Title"] = "Песни";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,33 +25,31 @@
             <th>
                 @Html.DisplayNameFor(model => model.Genre.Name)
             </th>
-            <th>Действия</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Artist.Name) 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Genre.Name) 
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-            @* <a asp-action="Details" asp-route-id="@item.Id">Детали</a> | *@
-            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-        </td>
-    </tr>
-}
-
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                    @* <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -7,12 +7,24 @@ namespace _08_HW_11._04._2024_Music_Portal.Models
         public int Id { get; set; }
 
         [Display(Name = "Песня")]
+        [Required(ErrorMessage = "Поле 'Песня' обязательно для заполнения")]
         public string Title { get; set; }
 
         [Display(Name = "Год выпуска")]
-        public int Year { get; set; }  
+        [Required(ErrorMessage = "Поле 'Год выпуска' обязательно для заполнения")]
+        public int Year { get; set; }
+
+        [Display(Name = "Идентификатор исполнителя")]
+        public int ArtistId { get; set; }
+
+        [Display(Name = "Идентификатор жанра")]
+        public int GenreId { get; set; }
+
+        [Display(Name = "Идентификатор пользователя")]
+        public int UserId { get; set; }
+
         public Artist Artist { get; set; }
         public Genre Genre { get; set; }
-        public User User {  get; set; }
+        public User User { get; set; }
     }
 }
