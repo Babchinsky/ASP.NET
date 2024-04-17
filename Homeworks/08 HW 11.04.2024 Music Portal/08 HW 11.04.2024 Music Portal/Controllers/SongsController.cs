@@ -63,32 +63,27 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         {
             try
             {
-                //if (ModelState.IsValid)
-                //{
-                    // Получение идентификатора текущего пользователя
-                    var userId = HttpContext.Session.GetInt32("UserId");
+                var userId = HttpContext.Session.GetInt32("UserId");
+                if (userId.HasValue)
+                {
+                    song.UserId = userId.Value;
+                }
+                else
+                {
+                    throw new Exception("userId не найден в сессии");
+                }
 
-                    // Установка идентификатора текущего пользователя в объекте Song
-                    song.UserId = (int)userId;
-
-                    // Добавление песни в контекст данных и сохранение изменений
-                    _context.Add(song);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                //}
+                // Добавление песни в контекст данных и сохранение изменений
+                _context.Add(song);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                // Обработка исключения, если что-то пошло не так при сохранении
-                // Лучше здесь логировать или обрабатывать ошибку, чем просто перенаправлять на Index
-                // Например:
-                // logger.LogError(ex, "An error occurred while saving the song.");
-                // ModelState.AddModelError("", "An error occurred while saving the song.");
+                ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name");
+                ViewData["ArtistId"] = new SelectList(_context.Artists, "Id", "Name");
+                return View(song);
             }
-
-            // Если ModelState не валиден, возвращаемся к форме создания песни для отображения ошибок
-            // или дополнительных действий, если необходимо
-            return View(song);
         }
 
 
@@ -105,6 +100,10 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["GenreId"] = new SelectList(_context.Genres, "Id", "Name", song.GenreId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "Id", "Name", song.ArtistId);
+
             return View(song);
         }
 
@@ -113,35 +112,43 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year")] Song song)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year,GenreId,ArtistId")] Song song)
         {
             if (id != song.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var userId = HttpContext.Session.GetInt32("UserId");
+                if (userId.HasValue)
                 {
-                    _context.Update(song);
-                    await _context.SaveChangesAsync();
+                    song.UserId = userId.Value;
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!SongExists(song.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw new Exception("userId не найден в сессии");
                 }
-                return RedirectToAction(nameof(Index));
+
+                _context.Update(song);
+                await _context.SaveChangesAsync();
             }
-            return View(song);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SongExists(song.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
         }
+
 
         // GET: Songs/Delete/5
         public async Task<IActionResult> Delete(int? id)
