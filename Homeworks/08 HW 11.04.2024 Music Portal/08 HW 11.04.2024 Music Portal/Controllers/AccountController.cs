@@ -1,4 +1,5 @@
 ﻿using _08_HW_11._04._2024_Music_Portal.Models;
+using _08_HW_11._04._2024_Music_Portal.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
@@ -7,11 +8,11 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 {
     public class AccountController: Controller
     {
-        private readonly MusicPortalContext _context;
+        IUsersRepository _usersRepository;
 
-        public AccountController(MusicPortalContext context) 
+        public AccountController(IUsersRepository usersRepository) 
         {
-            _context = context;
+            _usersRepository = usersRepository;
         }
 
         public ActionResult Login()
@@ -21,23 +22,27 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginModel logon)
+        public async Task<IActionResult> Login(LoginModel logon)
         {
             if (ModelState.IsValid)
             {
-                if (_context.Users.ToList().Count == 0)
+                //if (_context.Users.ToList().Count == 0)
+                if (await _usersRepository.AreUsersNotEmptyAsync() == false)
+                    {
+                    ModelState.AddModelError("", "Неверный логин или пароль!");
+                    return View(logon);
+                }
+                var users = await _usersRepository.GetUsersByLoginAsync(logon.Login);
+
+                if (users.Count == 0)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль!");
                     return View(logon);
                 }
-                var users = _context.Users.Where(a => a.Login == logon.Login);
-                if (users.ToList().Count == 0)
-                {
-                    ModelState.AddModelError("", "Неверный логин или пароль!");
-                    return View(logon);
-                }
+
                 var user = users.First();
                 string? salt = user.Salt;
+
 
                 //переводим пароль в байт-массив  
                 byte[] password = Encoding.Unicode.GetBytes(salt + logon.Password);
@@ -67,12 +72,15 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterModel reg)
+        public async Task<IActionResult> Register(RegisterModel reg)
         {
             if (ModelState.IsValid)
             {
                 // Проверяем, существует ли пользователь с таким же логином
-                var existingUser = _context.Users.FirstOrDefault(u => u.Login == reg.Login);
+                //var existingUser = _context.Users.FirstOrDefault(u => u.Login == reg.Login);
+                var existingUser = await _usersRepository.GetUserByLoginAsync(reg.Login);
+
+
                 if (existingUser != null)
                 {
                     ModelState.AddModelError("", "Пользователь с таким логином уже существует.");
@@ -106,8 +114,10 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
                 user.Password = hash.ToString();
                 user.Salt = salt;
-                _context.Users.Add(user);
-                _context.SaveChanges();
+                //_context.Users.Add(user);
+                //_context.SaveChanges();
+                _usersRepository.AddUserAndSaveAsync(user);
+
                 return RedirectToAction("Login");
             }
 

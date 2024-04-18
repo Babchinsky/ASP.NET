@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using _08_HW_11._04._2024_Music_Portal.Models;
+using _08_HW_11._04._2024_Music_Portal.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddDbContext<MusicPortalContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 
