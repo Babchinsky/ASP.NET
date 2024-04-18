@@ -43,6 +43,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Название</th>
                     <th>Исполнитель</th>
                     <th>Жанр</th>
@@ -53,10 +54,20 @@
                 @foreach (var song in Model.Songs)
                 {
                     <tr>
+                        <td>
+                            <audio controls>
+                                <source src="@Url.Content("~/Files/" + @song.Path)" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </td>
+
                         <td>@song.Title</td>
                         <td>@song.Artist.Name</td>
                         <td>@song.Genre.Name</td>
                         <td>@song.Year</td>
+                        @* <td>
+                            <a href="@Url.Content("~/Files/" + @song.Path)" download>Скачать</a>
+                        </td> *@
                     </tr>
                 }
             </tbody>

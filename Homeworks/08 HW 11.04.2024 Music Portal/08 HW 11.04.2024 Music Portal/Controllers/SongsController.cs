@@ -13,9 +13,13 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
     {
         private readonly MusicPortalContext _context;
 
-        public SongsController(MusicPortalContext context)
+        // IWebHostEnvironment предоставляет информацию об окружении, в котором запущено приложение
+        IWebHostEnvironment _appEnvironment;
+
+        public SongsController(MusicPortalContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         // GET: Songs
@@ -66,7 +70,8 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Year,GenreId,ArtistId")] Song song)
+        [RequestSizeLimit(1000000000)]
+        public async Task<IActionResult> Create([Bind("Id,Title,Year,GenreId,ArtistId")] Song song, IFormFile songFile)
         {
             try
             {
@@ -78,6 +83,25 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                 else
                 {
                     throw new Exception("userId не найден в сессии");
+                }
+
+                // Если загружен файл песни
+                if (songFile != null && songFile.Length > 0)
+                {
+                    // Генерация уникального имени файла
+                    var fileName = $"{_context.Artists.FirstOrDefault(a => a.Id == song.ArtistId)?.Name} - {song.Title}" + Path.GetExtension(songFile.FileName);
+
+                    // Путь к папке Files
+                    var filePath = "/Files/" + fileName;
+
+                    // Сохранение файла песни в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + filePath, FileMode.Create))
+                    {
+                        await songFile.CopyToAsync(fileStream); // копирование файла в поток
+                    }
+
+                    // Сохранение имени файла в модели песни
+                    song.Path = fileName;
                 }
 
                 // Добавление песни в контекст данных и сохранение изменений
@@ -92,6 +116,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                 return View(song);
             }
         }
+
 
 
         // GET: Songs/Edit/5

@@ -23,9 +23,9 @@ namespace _08_HW_11._04._2024_Music_Portal.Models
         [Display(Name = "Идентификатор пользователя")]
         public int UserId { get; set; }
 
-        //[Display(Name = "Файл песни")]
-        //[Required(ErrorMessage = "Поле 'Файл песни' обязательно для заполнения")]
-        //public IFormFile SongFile { get; set; }
+        [Display(Name = "Файл")]
+        public string? Path { get; set; }
+
 
         public Artist Artist { get; set; }
         public Genre Genre { get; set; }
