@@ -6,41 +6,50 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _08_HW_11._04._2024_Music_Portal.Models;
+using _08_HW_11._04._2024_Music_Portal.Repositories;
 
 namespace _08_HW_11._04._2024_Music_Portal.Controllers
 {
     public class GenresController : Controller
     {
-        private readonly MusicPortalContext _context;
+        //private readonly MusicPortalContext _context;
 
-        public GenresController(MusicPortalContext context)
+        //public GenresController(MusicPortalContext context)
+        //{
+        //    _context = context;
+        //}
+        IGenresRepository _genresRepository;
+        public GenresController(IGenresRepository genresRepository)
         {
-            _context = context;
+            _genresRepository = genresRepository;
         }
+
+
 
         // GET: Genres
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Genres.ToListAsync());
+            //return View(await _context.Genres.ToListAsync());
+            return View(await _genresRepository.GetGenresListAsync());
         }
 
-        // GET: Genres/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Genres/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (genre == null)
-            {
-                return NotFound();
-            }
+        //    var genre = await _context.Genres
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (genre == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(genre);
-        }
+        //    return View(genre);
+        //}
 
         // GET: Genres/Create
         public IActionResult Create()
@@ -57,22 +66,24 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(genre);
-                await _context.SaveChangesAsync();
+                //_context.Add(genre);
+                //await _context.SaveChangesAsync();
+                await _genresRepository.AddGenreAndSaveAsync(genre);
                 return RedirectToAction(nameof(Index));
             }
             return View(genre);
         }
 
         // GET: Genres/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var genre = await _context.Genres.FindAsync(id);
+            //var genre = await _context.Genres.FindAsync(id);
+            var genre = await _genresRepository.FindGenreByIdAsync(id);
             if (genre == null)
             {
                 return NotFound();
@@ -96,8 +107,9 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             {
                 try
                 {
-                    _context.Update(genre);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(genre);
+                    //await _context.SaveChangesAsync();
+                    await _genresRepository.UpdateGenreAsync(genre);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,15 +128,16 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         }
 
         // GET: Genres/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var genre = await _context.Genres
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var genre = await _genresRepository.GetFisrtOrDefaultGenreById(id);
             if (genre == null)
             {
                 return NotFound();
@@ -138,19 +151,22 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genre = await _context.Genres.FindAsync(id);
+            //var genre = await _context.Genres.FindAsync(id);
+            var genre = await _genresRepository.FindGenreByIdAsync(id);
             if (genre != null)
             {
-                _context.Genres.Remove(genre);
+                //_context.Genres.Remove(genre);
+                await _genresRepository.RemoveGenreAsync(genre);
             }
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GenreExists(int id)
         {
-            return _context.Genres.Any(e => e.Id == id);
+            //return _context.Genres.Any(e => e.Id == id);
+            return _genresRepository.IsGenreExistsById(id);
         }
     }
 }

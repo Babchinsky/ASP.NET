@@ -13,21 +13,21 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
     public class ArtistsController : Controller
     {
         //private readonly MusicPortalContext _context;
-        IMusicDataRepository _musicDataRepository;
+        IArtistsRepository _artistsRepository;
 
         //public ArtistsController(MusicPortalContext context)
         //{
         //    _context = context;
         //}
-        public ArtistsController(IMusicDataRepository musicDataRepository)
+        public ArtistsController(IArtistsRepository artistsRepository)
         {
-            _musicDataRepository = musicDataRepository;
+            _artistsRepository = artistsRepository;
         }
 
         // GET: Artists
         public async Task<IActionResult> Index()
         {
-            return View(await _musicDataRepository.GetArtistsListAsync());
+            return View(await _artistsRepository.GetArtistsListAsync());
         }
 
         //// GET: Artists/Details/5
@@ -65,7 +65,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             {
                 //_context.Add(artist);
                 //await _context.SaveChangesAsync();
-                await _musicDataRepository.AddArtistAndSaveAsync(artist);
+                await _artistsRepository.AddArtistAndSaveAsync(artist);
                 return RedirectToAction(nameof(Index));
             }
             return View(artist);
@@ -80,7 +80,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             }
 
             //var artist = await _context.Artists.FindAsync(id);
-            var artist = await _musicDataRepository.FindArtistByIdAsync(id);
+            var artist = await _artistsRepository.FindArtistByIdAsync(id);
             if (artist == null)
             {
                 return NotFound();
@@ -106,7 +106,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                 {
                     //_context.Update(artist);
                     //await _context.SaveChangesAsync();
-                    await _musicDataRepository.UpdateArtistAsync(artist);
+                    await _artistsRepository.UpdateArtistAsync(artist);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +134,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
             //var artist = await _context.Artists
             //    .FirstOrDefaultAsync(m => m.Id == id);
-            var artist = await _musicDataRepository.GetFisrtOrDefaultArtistById(id);
+            var artist = await _artistsRepository.GetFisrtOrDefaultArtistById(id);
             if (artist == null)
             {
                 return NotFound();
@@ -149,11 +149,11 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             //var artist = await _context.Artists.FindAsync(id);
-            var artist = await _musicDataRepository.FindArtistByIdAsync(id);
+            var artist = await _artistsRepository.FindArtistByIdAsync(id);
             if (artist != null)
             {
                 //_context.Artists.Remove(artist);
-                _musicDataRepository.RemoveArtistAsync(artist);
+                _artistsRepository.RemoveArtistAsync(artist);
 
             }
 
@@ -164,7 +164,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         private bool ArtistExists(int id)
         {
             //return _context.Artists.Any(e => e.Id == id);
-            return _musicDataRepository.IsArtistExistsById(id);
+            return _artistsRepository.IsArtistExistsById(id);
         }
     }
 }
