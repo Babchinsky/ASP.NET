@@ -134,7 +134,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
             //var artist = await _context.Artists
             //    .FirstOrDefaultAsync(m => m.Id == id);
-            var artist = await _artistsRepository.GetFisrtOrDefaultArtistById(id);
+            var artist = await _artistsRepository.GetFisrtOrDefaultArtistByIdAsync(id);
             if (artist == null)
             {
                 return NotFound();

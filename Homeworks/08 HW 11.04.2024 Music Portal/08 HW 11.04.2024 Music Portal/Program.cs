@@ -15,6 +15,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IArtistsRepository, ArtistsRepository>();
+builder.Services.AddScoped<IGenresRepository, GenresRepository>();
+builder.Services.AddScoped<ISongsRepository, SongsRepository>();
+
 
 var app = builder.Build();
 

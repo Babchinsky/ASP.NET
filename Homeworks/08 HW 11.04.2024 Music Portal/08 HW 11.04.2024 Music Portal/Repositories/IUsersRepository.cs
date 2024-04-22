@@ -11,6 +11,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Repositories
 
         Task<User> FindUserByIdAsync(int userId);
         Task SaveChangesAsync();
-        Task RemoveUserAndSaveAsync(User user);
+        Task RemoveUserAndSaveAsync(User user); 
+        Task<User> GetFirstOrDefaultUserAsync(int userId);
     }
 }

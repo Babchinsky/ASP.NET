@@ -28,7 +28,12 @@ namespace _08_HW_11._04._2024_Music_Portal.Repositories
             return await _context.Artists.ToListAsync();
         }
 
-        public async Task<Artist> GetFisrtOrDefaultArtistById(int artistId)
+        public Artist GetFirstOrDefaultArtistById(int artistId)
+        {
+            return _context.Artists.FirstOrDefault(m => m.Id == artistId);
+        }
+
+        public async Task<Artist> GetFisrtOrDefaultArtistByIdAsync(int artistId)
         {
             return await _context.Artists.FirstOrDefaultAsync(m => m.Id == artistId);
         }

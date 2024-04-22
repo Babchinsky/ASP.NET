@@ -9,7 +9,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
     public class HomeController : Controller
     {
         private readonly MusicPortalContext _context;
-        IUsersRepository _usersRepository;
+        //IUsersRepository _usersRepository;
 
         public HomeController(MusicPortalContext context)
         {

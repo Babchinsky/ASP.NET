@@ -49,5 +49,10 @@ namespace _08_HW_11._04._2024_Music_Portal.Repositories
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<User> GetFirstOrDefaultUserAsync(int userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
     }
 }
