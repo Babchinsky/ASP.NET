@@ -8,43 +8,47 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly MusicPortalContext _context;
-        //IUsersRepository _usersRepository;
+        //private readonly MusicPortalContext _context;
+        IUsersRepository _usersRepository;
+        ISongsRepository _songsRepository;
 
-        public HomeController(MusicPortalContext context)
-        {
-            _context = context;
-        }
-        //public HomeController(IUsersRepository usersRepository)
+        //public HomeController(MusicPortalContext context)
         //{
-        //    _usersRepository = usersRepository;
+        //    _context = context;
         //}
+        public HomeController(IUsersRepository usersRepository, ISongsRepository songsRepository)
+        {
+            _usersRepository = usersRepository;
+            _songsRepository = songsRepository;
+        }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _usersRepository.GetFirstOrDefaultUserAsync(userId ?? 0);
 
+            ViewData["Name"] = user?.Login ?? "Гость";
 
-            // Проверяем, равен ли userName null, и устанавливаем ViewData["Name"] в null, если да
-            ViewData["Name"] = user != null ? user.Login : "Гость";
+            //var songs = await _context.Songs
+            //                         .Include(s => s.Artist)
+            //                         .Include(s => s.Genre)
+            //                         .ToListAsync();
+            var songs = await _songsRepository.GetSongsListAsync();
 
-            var songs = _context.Songs.Include(s => s.Artist).Include(s => s.Genre).ToList();
-            var users = _context.Users.ToList();
+            //var users = await _context.Users.ToListAsync();
+            var users = await _usersRepository.GetUsersListAsync();
 
-            // Создание объекта UserAndSongViewModel и заполнение его данными
             var viewModel = new UserAndSongViewModel
             {
                 Users = users,
                 Songs = songs
             };
 
-            // Передаем пользователя в представление
             ViewData["CurrentUser"] = user;
 
-            // Передача модели в представление
             return View(viewModel);
         }
+
     }
 }

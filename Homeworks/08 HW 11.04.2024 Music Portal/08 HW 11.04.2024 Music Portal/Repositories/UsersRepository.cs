@@ -54,5 +54,10 @@ namespace _08_HW_11._04._2024_Music_Portal.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
+
+        public async Task<List<User>> GetUsersListAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }
