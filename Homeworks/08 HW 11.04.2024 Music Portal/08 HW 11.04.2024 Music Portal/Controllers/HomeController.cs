@@ -1,4 +1,5 @@
 ﻿using _08_HW_11._04._2024_Music_Portal.Models;
+using _08_HW_11._04._2024_Music_Portal.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -8,11 +9,16 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
     public class HomeController : Controller
     {
         private readonly MusicPortalContext _context;
+        IUsersRepository _usersRepository;
 
         public HomeController(MusicPortalContext context)
         {
             _context = context;
         }
+        //public HomeController(IUsersRepository usersRepository)
+        //{
+        //    _usersRepository = usersRepository;
+        //}
 
 
         public IActionResult Index()

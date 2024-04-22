@@ -14,6 +14,7 @@ builder.Services.AddDbContext<MusicPortalContext>(options => options.UseSqlServe
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IMusicDataRepository, MusicDataRepository>();
 
 var app = builder.Build();
 
