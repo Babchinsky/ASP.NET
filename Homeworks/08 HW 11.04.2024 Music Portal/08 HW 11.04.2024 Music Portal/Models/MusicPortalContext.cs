@@ -48,14 +48,14 @@ namespace _08_HW_11._04._2024_Music_Portal.Models
 
             // Добавление Users
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Login = "admin", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.Admin },
+                new User { Id = 1, Login = "user0", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.UnverifiedUser },
                 new User { Id = 2, Login = "user1", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.VerifiedUser },
                 new User { Id = 3, Login = "user2", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.UnverifiedUser },
                 new User { Id = 4, Login = "user3", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.VerifiedUser },
                 new User { Id = 5, Login = "user4", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.UnverifiedUser },
-                new User { Id = 6, Login = "user5", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.Admin },
+                new User { Id = 6, Login = "user5", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.UnverifiedUser },
                 new User { Id = 7, Login = "user6", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.VerifiedUser },
-                new User { Id = 8, Login = "user7", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.Admin },
+                new User { Id = 8, Login = "user7", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.VerifiedUser },
                 new User { Id = 9, Login = "user8", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.UnverifiedUser },
                 new User { Id = 10, Login = "user9", Password = "password123", Salt = "random_salt", AccessLevel = AccessLevel.VerifiedUser }
             );

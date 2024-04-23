@@ -22,16 +22,16 @@ body {
 }
 
 
-/*html,
+html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
-}*/
+}
 
-/*#page-content {
+#page-content {
     flex: 1 0 auto;
-}*/
+}
 
 
 td, th {
