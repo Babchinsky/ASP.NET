@@ -17,7 +17,7 @@
             YearSort = SortState.YearAsc;
             Up = true;
 
-            if (sortOrder == SortState.NameDesc || sortOrder == SortState.ArtistDesc || sortOrder == SortState.GenreDesc || sortOrder == SortState.YearDesc)
+            if (sortOrder == SortState.ArtistDesc || sortOrder == SortState.NameDesc  || sortOrder == SortState.GenreDesc || sortOrder == SortState.YearDesc)
             {
                 Up = false;
             }
@@ -28,22 +28,22 @@
                     Current = NameSort = SortState.NameAsc;
                     break;
                 case SortState.ArtistAsc:
-                    Current = NameSort = SortState.ArtistDesc;
+                    Current = ArtistSort = SortState.ArtistDesc;
                     break;
                 case SortState.ArtistDesc:
-                    Current = NameSort = SortState.ArtistAsc;
+                    Current = ArtistSort = SortState.ArtistAsc;
                     break;
                 case SortState.GenreAsc:
-                    Current = NameSort = SortState.GenreDesc;
+                    Current = GenreSort = SortState.GenreDesc;
                     break;
                 case SortState.GenreDesc:
-                    Current = NameSort = SortState.GenreAsc;
+                    Current = GenreSort = SortState.GenreAsc;
                     break;
                 case SortState.YearAsc:
-                    Current = NameSort = SortState.YearDesc;
+                    Current = YearSort = SortState.YearDesc;
                     break;
                 case SortState.YearDesc:
-                    Current = NameSort = SortState.YearAsc;
+                    Current = YearSort = SortState.YearAsc;
                     break;
                 default:
                     Current = NameSort = SortState.NameDesc;

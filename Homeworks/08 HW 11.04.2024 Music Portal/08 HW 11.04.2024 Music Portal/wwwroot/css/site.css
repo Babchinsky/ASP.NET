@@ -22,15 +22,36 @@ body {
 }
 
 
-html,
+/*html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
+}*/
 
-#page-content {
+/*#page-content {
     flex: 1 0 auto;
+}*/
+
+
+td, th {
+    padding: 0 13px 0 0;
+    /*color: red;*/
 }
 
+.glyphicon {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    margin: 0 5px;
+}
+
+.glyphicon-chevron-down {
+    transform: rotate(45deg);
+}
+
+.glyphicon-chevron-up {
+    transform: rotate(-135deg);
+}
 

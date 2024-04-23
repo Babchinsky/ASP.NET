@@ -39,28 +39,66 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th></th>
+                    @* <th></th>
                     <th>Название</th>
                     <th>Исполнитель</th>
                     <th>Жанр</th>
-                    <th>Год</th>
+                    <th>Год</th> *@
+                    <th></th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.NameSort">
+                            Название
+                        </sort-header>
+                    </th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.ArtistSort">
+                            Исполнитель
+                        </sort-header>
+                    </th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.GenreSort">
+                            Жанр
+                        </sort-header>
+                    </th>
+                    <th>
+                        <sort-header action="Index" up="@Model.SortViewModel.Up"
+                                     current="@Model.SortViewModel.Current" property="@Model.SortViewModel.YearSort">
+                            Год
+                        </sort-header>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var song in Model.Songs)
+                @foreach (var item in Model.Songs)
                 {
                     <tr>
                         <td>
                             <audio controls>
-                                <source src="@Url.Content("~/Files/" + @song.Path)" type="audio/mpeg">
+                                <source src="@Url.Content("~/Files/" + item.Path)" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
                         </td>
 
-                        <td>@song.Title</td>
+                        @* <td>@song.Title</td>
                         <td>@song.Artist.Name</td>
                         <td>@song.Genre.Name</td>
-                        <td>@song.Year</td>
+                        <td>@song.Year</td> *@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Artist!.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genre!.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+
                         @* <td>
                             <a href="@Url.Content("~/Files/" + @song.Path)" download>Скачать</a>
                         </td> *@
