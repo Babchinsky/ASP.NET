@@ -39,7 +39,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
             //var users = await _context.Users.ToListAsync();
             var users = await _usersRepository.GetUsersListAsync();
 
-            var viewModel = new UserAndSongViewModel
+            var viewModel = new IndexViewModel
             {
                 Users = users,
                 Songs = songs
