@@ -6,15 +6,17 @@
         public IEnumerable<Song> Songs { get; set; } = new List<Song>();
         public PageViewModel PageViewModel { get; }
         public SortViewModel SortViewModel { get; set; } = new SortViewModel(SortState.NameAsc);
+        public FilterViewModel FilterViewModel { get; }
 
         public IndexViewModel() { }
 
-        public IndexViewModel(IEnumerable<User> users, IEnumerable<Song> songs, SortViewModel sortViewModel, PageViewModel pageViewModel)
+        public IndexViewModel(IEnumerable<User> users, IEnumerable<Song> songs, SortViewModel sortViewModel, PageViewModel pageViewModel, FilterViewModel filterViewModel)
         {
             Users = users;
             Songs = songs;
             SortViewModel = sortViewModel;
             PageViewModel = pageViewModel;
+            FilterViewModel = filterViewModel;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using _08_HW_11._04._2024_Music_Portal.Models;
 using _08_HW_11._04._2024_Music_Portal.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -25,7 +26,7 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
         }
 
 
-        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc, int page = 1)
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc, int page = 1, int artist = 0, int genre = 0)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = await _usersRepository.GetFirstOrDefaultUserAsync(userId ?? 0);
@@ -42,6 +43,17 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
 
             //var songs = await _songsRepository.GetSongsListAsync(); // Асинхронный вызов
             IQueryable<Song> songs = _context.Songs.Include(s => s.Artist).Include(s => s.Genre);
+
+            if (artist != 0)
+            {
+                songs = songs.Where(p => p.ArtistId == artist);
+            }
+
+            if (genre != 0)
+            {
+                songs = songs.Where(p => p.GenreId == genre);
+            }
+
 
 
             songs = sortOrder switch
@@ -68,7 +80,8 @@ namespace _08_HW_11._04._2024_Music_Portal.Controllers
                 users: await _usersRepository.GetUsersListAsync(),
                 songs: items, // Используйте 'items', которые содержат текущую страницу песен
                 sortViewModel: new SortViewModel(sortOrder),
-                pageViewModel: pageViewModel
+                pageViewModel: pageViewModel,
+                filterViewModel: new FilterViewModel(_context.Artists.ToList(), artist, _context.Genres.ToList(), genre)
              );
             return View(viewModel);
         }
