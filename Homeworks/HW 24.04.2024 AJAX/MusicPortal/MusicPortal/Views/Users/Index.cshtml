@@ -1,0 +1,217 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            getAllUsers();
+
+            $("body").on("click", ".btn-get-user", function () {
+                let id = $(this).data("userid");
+                getUser(id);
+            });
+
+            
+            let rowUser = function (user) {
+                let accessLevelName = getAccessLevelDisplayName(user.AccessLevel);
+
+                return "<tr data-rowid='" + user.Id + "'><td>" + user.Id + "</td>" +
+                    "<td>" + user.Login + "</td>" + "<td>" + user.Password + "</td>" + "<td>" + accessLevelName + "</td>" +
+                    "<td><a href='javascript: void(0)' data-userid='" + user.Id +
+                    "' class='btn btn-success btn-get-user'>Get User</a></td></tr>";
+            };
+
+            
+            function getAccessLevelDisplayName(accessLevel) {
+                const accessLevelNames = {
+                    "0": "Не подтвержденный пользователь",
+                    "1": "Подтвержденный пользователь",
+                    "2": "Администратор"
+                };
+
+                return accessLevelNames[accessLevel] || "Unknown"; 
+            }
+
+
+            function getAllUsers() {
+                $.ajax({
+                    url: '@Url.Action("GetUsers", "Users")',
+                    type: 'GET',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        let rows = "";
+                        let users = JSON.parse(response);
+                        $.each(users, function (index, user) {
+                            rows += rowUser(user);
+                        })
+                        $("#user-list").html(rows);
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            }
+
+            function getUser(userid) {
+
+                let url = '@Url.Action("GetDetailsById", "Users")' + '/' + userid;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        var user = JSON.parse(response);
+                        $("#login").val(user.Login);
+                        $("#password").val(user.Password);
+                        $("#accessLevel").val(user.AccessLevel);
+                        $("#hdn-user-id").val(user.Id);
+
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            }
+
+
+            $("#btn-insert-user").on("click", function () {
+                let formData = new FormData();
+                formData.append("login", $("#login").val());
+                formData.append("password", $("#password").val());
+                formData.append("accessLevel", $("#accessLevel").val());
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("InsertUser", "Users")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllUsers();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+
+            $("#btn-update-user").on("click", function () {
+                let formData = new FormData();
+                formData.append("id", $("#hdn-user-id").val());
+                formData.append("login", $("#login").val());
+                formData.append("password", $("#password").val());
+                formData.append("accessLevel", $("#accessLevel").val());
+                $.ajax({
+                    type: 'PUT',
+                    url: '@Url.Action("UpdateUser", "Users")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllUsers();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+
+            $("#btn-delete-user").on("click", function () {
+                if (!confirm("Вы действительно желаете удалить пользователя?"))
+                    return;
+                let formData = new FormData();
+                formData.append("id", $("#hdn-user-id").val());
+                $.ajax({
+                    type: 'DELETE',
+                    url: '@Url.Action("DeleteUser", "Users")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllUsers();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+            function resetForm() {
+                $("#hdn-user-id").val("");
+                $("#login").val("");
+                $("#password").val("");
+                $("#accessLevel").val("");
+            }
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<div class="text-center">
+    <h1 class="display-4">Music Portal Admin Panel AJAX</h1>
+    <hr />
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <form>
+            <input type="hidden" id="hdn-user-id" />
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="login" class="form-label">Login</label>
+                    <input type="text" class="form-control" id="login" placeholder="Enter Login" value="" autocomplete="off" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password" placeholder="Enter Password" value="" autocomplete="off" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="accessLevel" class="form-label">AccessLevel</label>
+                    <input type="text" class="form-control" id="accessLevel" placeholder="Enter AccessLevel" value="" autocomplete="off" required>
+                </div>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btn-insert-user">Save User</a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-info" id="btn-update-user">Update User</a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-danger" id="btn-delete-user">Delete User</a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </form>
+
+    </div>
+    <br />
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Login</td>
+                    <td>Password</td>
+                    <td>AccessLevel</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody id="user-list">
+            </tbody>
+        </table>
+    </div>
+</div>

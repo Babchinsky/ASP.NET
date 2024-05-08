@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            getAllGenres();
+
+            $("body").on("click", ".btn-get-genre", function () {
+                let id = $(this).data("genreid");
+                getGenre(id);
+            });
+
+            let rowGenre = function (genre) {
+                return "<tr data-rowid='" + genre.Id + "'><td>" + genre.Id + "</td>" +
+                    "<td>" + genre.Name + "</td>" +
+                    "<td><a href='javascript: void (0)' data-genreid='" + genre.Id +
+                    "' class='btn btn-success btn-get-genre'>Get Genre</a></td></tr>";
+            };
+
+
+            function getAllGenres() {
+                $.ajax({
+                    url: '@Url.Action("GetGenres", "Genres")',
+                    type: 'GET',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        let rows = "";
+                        let genres = JSON.parse(response);
+                        $.each(genres, function (index, genre) {
+                            rows += rowGenre(genre);
+                        })
+                        $("#genre-list").html(rows);
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            }
+
+            function getGenre(genreid) {
+
+                let url = '@Url.Action("GetDetailsById", "Genres")' + '/' + genreid;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        var genre = JSON.parse(response);
+                        $("#name").val(genre.Name);
+                        $("#hdn-genre-id").val(genre.Id);
+
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            }
+
+
+            $("#btn-insert-genre").on("click", function () {
+                let formData = new FormData();
+                formData.append("name", $("#name").val());
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("InsertGenre", "Genres")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllGenres();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+
+            $("#btn-update-genre").on("click", function () {
+                let formData = new FormData();
+                formData.append("id", $("#hdn-genre-id").val());
+                formData.append("name", $("#name").val());
+                $.ajax({
+                    type: 'PUT',
+                    url: '@Url.Action("UpdateGenre", "Genres")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllGenres();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+
+            $("#btn-delete-genre").on("click", function () {
+                if (!confirm("Вы действительно желаете удалить жанр?"))
+                    return;
+                let formData = new FormData();
+                formData.append("id", $("#hdn-genre-id").val());
+                $.ajax({
+                    type: 'DELETE',
+                    url: '@Url.Action("DeleteGenre", "Genres")',
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        alert(response);
+                        resetForm();
+                        getAllGenres();
+                    },
+                    error: function (jqXHR, statusText, error) {
+                        console.log(jqXHR.status + '\n' + statusText + '\n' + error);
+                    }
+                });
+            });
+            function resetForm() {
+                $("#hdn-genre-id").val("");
+                $("#name").val("");
+            }
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<div class="text-center">
+    <h1 class="display-4">Music Portal Admin Panel AJAX</h1>
+    <hr />
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <form>
+            <input type="hidden" id="hdn-genre-id" />
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter Name" value="" autocomplete="off" required>
+                </div>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-primary" id="btn-insert-genre">Save Genre</a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-info" id="btn-update-genre">Update Genre</a>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-danger" id="btn-delete-genre">Delete Genre</a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </form>
+
+    </div>
+    <br />
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Name</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody id="genre-list">
+            </tbody>
+        </table>
+    </div>
+</div>
