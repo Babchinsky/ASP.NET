@@ -1,0 +1,85 @@
+﻿@page
+@model Movies.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Стили для основного контейнера */
+    .main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    /* Стили для плашки с фильмом */
+    .filmplate {
+        width: 250px;
+        padding: 10px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Стили для изображения */
+    .image {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    /* Стили для информации о фильме */
+    .finfo {
+        margin-top: 10px;
+    }
+
+    /* Стили для кнопок внизу плашки */
+    .bottom {
+        margin-top: 10px;
+    }
+
+    .inbutton {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+
+        .inbutton:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+</style>
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create" class="inbutton">Create New</a>
+</p>
+
+<div class="main">
+    @foreach (var film in Model.Movie)
+    {
+        <div class="filmplate">
+            <img class="image" src="@film.PosterPath" />
+            <div class="finfo">
+                <span><strong>Title:</strong> @film.Title</span>
+                <span><strong>Director:</strong> @film.Director</span>
+                <span><strong>Genre:</strong> @film.Genre</span>
+                <span><strong>Date:</strong> @film.Date.ToShortDateString()</span>
+                <div class="bottom">
+                    <a asp-page="./Details" asp-route-id="@film.Id" class="inbutton">Details</a>
+                    <a asp-page="./Edit" asp-route-id="@film.Id" class="inbutton">Edit</a>
+                    <a asp-page="./Delete" asp-route-id="@film.Id" class="inbutton">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
