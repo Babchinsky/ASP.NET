@@ -1,0 +1,261 @@
+﻿@using Models
+@using MusicPortal.Models.ViewModels.Sort
+@model CombinedMessages;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    /* Общие стили страницы */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #eaeaea;
+        color: #333;
+    }
+
+    /* Стили для карточек */
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+    .card-img-top {
+        width: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .card-img-top:hover {
+            transform: scale(1.1);
+        }
+
+    /* Стили для поисковой панели */
+    .search-wrapper {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+        .search-wrapper input[type="text"],
+        .search-wrapper select {
+            border: 2px solid #333;
+            border-radius: 4px;
+            padding: 10px;
+            margin-right: 10px;
+            width: auto;
+            flex-grow: 1;
+        }
+
+    /* Стили для кнопок */
+    .btn {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+    /* Стили для ссылок сортировки */
+    /* .sort-link {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .sort-link:hover {
+            color: #0056b3;
+        }
+
+        .sort-link svg {
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+    /* Стили для контейнера сортировки */
+    /* .Sort {
+        margin-bottom: 20px;
+        text-align: right;
+    } */
+
+
+    .sort-link {
+        font-size: 24px;
+        color: black;
+        text-decoration: none;
+        margin-bottom: 10px;
+    }
+
+        .sort-link:hover {
+            text-decoration: none;
+            color: #0056b3;
+        }
+
+        .sort-link svg {
+            margin-left: 5px;
+            height: 24px;
+        }
+
+    .Sort {
+        margin-bottom: 15px;
+    }
+
+</style>
+
+
+
+<h1>@Resources.Resource.Music</h1>
+
+    <p>
+
+        <a asp-action="Create" class="btn btn-dark">@Resources.Resource.Create @Resources.Resource.Music</a>
+    </p>
+@if (ViewBag.Name == "Admin")
+{
+    <p>
+        <a asp-action="CreateGenre" class="btn btn-success">@Resources.Resource.Create @Resources.Resource.Genre</a>
+    </p>
+}
+
+<div class="search-wrapper">
+    <form method="get" class="Filter">
+        <div>
+            <input name="title" value="@Model.Musics.FilterViewModel.SelectedTitle" type="text" placeholder="@Resources.Resource.Search...">
+        </div>
+        <div>
+            <div>
+            <label asp-for="@Model.Music.GenreID" class="control-label"></label>
+       
+            <select name="genre" class="form-control">
+                    <option value="">@Resources.Resource.Choose @Resources.Resource.Genre</option>
+                @if (ViewBag.Genres != null)
+                {
+                    foreach (var genre in ViewBag.Genres)
+                    {
+                        <option value="@genre.Id">@genre.Title</option>
+                    }
+                }
+            </select>
+
+               
+       
+            <span asp-validation-for="@Model.Music.GenreID" class="text-danger"></span>
+
+         </div>
+            
+       
+
+        </div>
+        <div>
+            <button type="submit" value="Filter" class="btn btn-sm btn-danger">@Resources.Resource.Search </button>
+            @if (ViewBag.Name == "Admin")
+            {
+                <button type="submit" asp-action="DeleteGenre" class="btn btn-sm btn-outline-secondary">@Resources.Resource.Delete</button>
+            }
+        </div>
+    </form>
+</div>
+
+<div class="Sort">
+    <th>
+        <a asp-action="Index"
+           asp-route-sortOrder="@(Model.Musics.SortViewModel.NameSort)"
+           asp-route-position="@(Model.Musics.FilterViewModel.SelectedTitle)"
+           asp-route-team="@(Model.Musics.FilterViewModel.SelectedGenre)"
+           class="sort-link">
+            Name
+            @if (Model.Musics.SortViewModel.NameSort == SortState.NameAsc)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by  - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" /></svg>
+            }
+            else if (Model.Musics.SortViewModel.NameSort == SortState.NameDesc)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by  - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
+            }
+        </a>
+    </th>
+    <th>
+        <a asp-action="Index"
+           asp-route-sortOrder="@(Model.Musics.SortViewModel.AgeSort)"
+           asp-route-title="@(Model.Musics.FilterViewModel.SelectedTitle)"
+           asp-route-genre="@(Model.Musics.FilterViewModel.SelectedGenre)"
+           class="sort-link">
+            Genre
+            @if (Model.Musics.SortViewModel.AgeSort == SortState.AgeAsc)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by  - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" /></svg>
+            }
+            else if (Model.Musics.SortViewModel.AgeSort == SortState.AgeDesc)
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by  - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
+            }
+        </a>
+    </th>
+</div>
+
+
+
+<div class="row">
+    @foreach (var item in Model.Musics.Musics)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" src="Images/@item.PosterPath" alt="Poster">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                     <p class="card-title">@item.Genre</p> 
+                    <audio src="@Url.Content(item.MusicPath)" id="@($"audio-{item.Id}")" preload="auto"></audio>
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="btn-group">
+                            <form id="@($"downloadForm-{item.Id}")" method="post" asp-action="DownloadMusic">
+                                <input type="hidden" name="musicPath" value="@Url.Content(item.MusicPath)" />
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">@Resources.Resource.Download</button>
+                            </form>
+                             <audio controls>
+                                 <source src="Music/@item.MusicPath" type="audio/mp4">
+                             </audio>
+                         
+                        </div>
+                        <div>
+                            @if (ViewBag.Name == "Admin")
+                            {
+                                <div class="btn-group">
+                                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">@Resources.Resource.Edit</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Resource.Delete</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+  
+    
+   
+</div>
+<page-link page-model="@Model.Musics.PageViewModel" page-action="Index"
+           page-url-position="@(Model.Musics.FilterViewModel.SelectedTitle)"
+           page-url-team="@(Model.Musics.FilterViewModel.SelectedGenre)"
+           page-url-sortorder="@(Model.Musics.SortViewModel.Current)"></page-link>
+
+
+

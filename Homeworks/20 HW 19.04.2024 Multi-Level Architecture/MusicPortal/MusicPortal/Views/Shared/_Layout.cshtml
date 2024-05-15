@@ -1,0 +1,121 @@
+﻿@using MusicPortal.DAL.Entities
+@inject MusicPortal.BLL.Interfaces.ILangRead MyLangRead
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MusicPortal</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-DP7I++9BVZvNn4rAk3jpZwWhW/30BIScFbE29lRSzoBzFhrftkd0boZa0HjI1rfiGBnjp1Jp5aMJROmSTT/yIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/MusicPortal.styles.css" asp-append-version="true" />
+</head>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        /* margin-top: 20px; */
+    }
+
+    .navbar-brand {
+        font-size: 1.5em;
+        color: #ff4500;
+    }
+
+    .navbar {
+        background-color: #333;
+        padding: 10px;
+    }
+
+    .nav-link {
+        color: #fff !important;
+        margin-right: 15px;
+    }
+
+    .nav-item.name {
+        font-weight: bold;
+        color: #ff4500 !important;
+    }
+
+    footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .footer-container{
+        background-color: transparent;
+    }
+</style>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="MusicModels" asp-action="Index">MusicPortal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        @if (ViewBag.Name == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="GoToAdminPanel">AdminPanel</a>
+                            </li>
+                            <li class="nav-item name">  @Resources.Resource.Hello, @ViewBag.Name</li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="BackToLog">@Resources.Resource.BackToLog</a>
+                            </li>
+                        }
+                        else if (@ViewBag.Name != "" && ViewBag.Name != null)
+                        {
+                            <li class="nav-item name"> @Resources.Resource.Hello, @ViewBag.Name</li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="BackToLog">@Resources.Resource.BackToLog</a>
+                            </li>
+                        }
+                    </ul>
+                    <form class="d-flex" asp-action="ChangeCulture" asp-controller="AdminPanel">
+                        <select class="form-select" name="lang">
+                            <option disabled selected>@Resources.Resource.ChooseLang</option>
+                            @foreach (Language it in MyLangRead.languageList())
+                            {
+                                <option value=@it.ShortName>@it.Name</option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-success" type="submit">@Resources.Resource.ChooseLang</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            © 2024 - MusicPortal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

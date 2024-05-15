@@ -1,0 +1,62 @@
+﻿/* Стили для контейнера формы входа */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Стили для заголовка */
+.login-heading {
+    margin-bottom: 30px;
+    color: #333333;
+    font-size: 28px;
+}
+
+/* Стили для формы */
+.login-form-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для полей ввода */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 4px;
+}
+
+/* Стили для кнопок */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+.btn-link {
+    color: #007bff;
+}
+
+    .btn-link:hover {
+        color: #0056b3;
+    }
+
+/* Стили для текста ошибок валидации */
+.text-danger {
+    font-size: 14px;
+}
